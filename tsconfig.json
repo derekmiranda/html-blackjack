@@ -1,0 +1,9 @@
+{
+  "compilerOptions": {
+    "target": "ES5",
+  },
+  "forceConsitentCasingInFileNames": true,
+  "noImplicitReturns": true,
+  "strict": true,
+  "noUnusedLocals": true
+}

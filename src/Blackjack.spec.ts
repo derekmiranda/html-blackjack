@@ -317,41 +317,42 @@ describe("Blackjack", () => {
   //   });
   // });
 
-  // test("Blackjack tie", () => {
-  //   const render = <BlackjackStateRenderer>jest.fn();
-  //   const blackjack = new Blackjack(render);
-  //   const initialState = {
-  //     dealerCards: [
-  //       {
-  //         suit: Suit.Clubs,
-  //         value: FaceValue.Ace,
-  //         flipped: false,
-  //       },
-  //       {
-  //         suit: Suit.Hearts,
-  //         value: FaceValue.King,
-  //         flipped: true,
-  //       },
-  //     ],
-  //     playerCards: [
-  //       {
-  //         suit: Suit.Spades,
-  //         value: FaceValue.Ace,
-  //         flipped: false,
-  //       },
-  //       {
-  //         suit: Suit.Diamonds,
-  //         value: FaceValue.Queen,
-  //         flipped: false,
-  //       },
-  //     ],
-  //   };
-  //   blackjack.update(initialState);
-  //   expect(render).toBeCalledWith({
-  //     ...initialState,
-  //     hasTied: true,
-  //   });
-  // });
+  test("Blackjack tie", () => {
+    const render = <BlackjackStateRenderer>jest.fn();
+    const blackjack = new Blackjack(render);
+    const initialState = {
+      dealerCards: [
+        {
+          suit: Suit.Clubs,
+          value: FaceValue.Ace,
+          flipped: false,
+        },
+        {
+          suit: Suit.Hearts,
+          value: FaceValue.King,
+          flipped: true,
+        },
+      ],
+      playerCards: [
+        {
+          suit: Suit.Spades,
+          value: FaceValue.Ace,
+          flipped: false,
+        },
+        {
+          suit: Suit.Diamonds,
+          value: FaceValue.Queen,
+          flipped: false,
+        },
+      ],
+      discarded: [],
+    };
+    blackjack.update(initialState);
+    expect(render).toBeCalledWith({
+      ...initialState,
+      hasTied: true,
+    });
+  });
 
   // test("Discarding cards", () => {
   //   const render = <BlackjackStateRenderer>jest.fn();

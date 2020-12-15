@@ -2,7 +2,7 @@ import { Card } from "./types";
 import { SUIT_ORDER, FACE_ORDER } from "./CONSTS";
 
 export class Deck {
-  // stack: LIFO
+  // use as stack
   protected _cards: Card[] = [];
 
   get cards() {

@@ -7,15 +7,33 @@ interface FlippableCard extends Card {
 }
 
 export interface BlackjackState {
+  playerCards: FlippableCard[];
+  dealerCards: FlippableCard[];
+  discarded: FlippableCard[];
+  hasWon?: boolean;
+  hasLost?: boolean;
+  hasTied?: boolean;
+  playerDone?: boolean;
+  // triggers state calc
+  deal?: boolean;
+  hit?: boolean;
+  stand?: boolean;
+  newGame?: boolean;
+}
+
+export interface BlackjackStateUpdate {
   playerCards?: FlippableCard[];
   dealerCards?: FlippableCard[];
   discarded?: FlippableCard[];
   hasWon?: boolean;
   hasLost?: boolean;
   hasTied?: boolean;
+  playerDone?: boolean;
+  // triggers state calc
   deal?: boolean;
   hit?: boolean;
   stand?: boolean;
+  newGame?: boolean;
 }
 
 export interface BlackjackStateRenderer {
@@ -27,6 +45,7 @@ export class Blackjack {
     playerCards: [],
     dealerCards: [],
     discarded: [],
+    playerDone: false,
   };
 
   _state: BlackjackState;
@@ -44,10 +63,9 @@ export class Blackjack {
     this.deck = new Deck();
     this.deck.shuffle();
     this._state = merge({}, Blackjack.defaultState);
-    this.render(this._state);
   }
 
-  update(stateUpdate: BlackjackState = {}) {
+  update(stateUpdate: BlackjackStateUpdate = {}) {
     if (
       Object.keys(stateUpdate).length >= 1 ||
       stateUpdate.deal ||
@@ -56,6 +74,9 @@ export class Blackjack {
     ) {
       merge(this._state, stateUpdate);
       this.processState();
+      delete this._state.deal;
+      delete this._state.hit;
+      delete this._state.stand;
     }
     this.render(this._state);
   }
@@ -76,16 +97,24 @@ export class Blackjack {
       );
       newDealerCards[1].flipped = true;
 
-      this._state.playerCards = (<FlippableCard[]>(
-        this._state.playerCards
-      )).concat(newPlayerCards);
-      this._state.dealerCards = (<FlippableCard[]>(
-        this._state.dealerCards
-      )).concat(newDealerCards);
+      this._state.playerCards = this._state.playerCards.concat(newPlayerCards);
+      this._state.dealerCards = this._state.dealerCards.concat(newDealerCards);
+    }
 
-      delete this._state.deal;
+    // if player done - dealer starts
+    if (this._state.playerDone) {
+      let dealerScore = this.getCardValues(this._state.dealerCards);
+      let playerScore = this.getCardValues(this._state.playerCards);
+      while (dealerScore <= playerScore || dealerScore < 21) {
+        const newCard: FlippableCard = {
+          ...this.getCards(1)[0],
+          flipped: false,
+        };
+        this._state.dealerCards.push(newCard);
+        dealerScore = this.getCardValues(this._state.dealerCards);
+      }
 
-      return;
+      this._state.playerDone = false;
     }
 
     // dealing done - process game result
@@ -96,9 +125,22 @@ export class Blackjack {
       <FlippableCard[]>this._state.dealerCards
     );
 
-    // blackjack tie
+    // tie
     if (playerSum === 21 && dealerSum === 21) {
       this._state.hasTied = true;
+      this._state.playerDone = true;
+      this.flipDealerCards();
+      return;
+    }
+    // win
+    else if (
+      // blackjack
+      playerSum === 21 ||
+      // dealer went over
+      dealerSum > 21
+    ) {
+      this._state.hasWon = true;
+      this._state.playerDone = true;
       this.flipDealerCards();
       return;
     }
@@ -146,7 +188,7 @@ export class Blackjack {
   }
 
   flipDealerCards(): void {
-    for (let card of <FlippableCard[]>this._state.dealerCards) {
+    for (let card of this._state.dealerCards) {
       card.flipped = false;
     }
   }

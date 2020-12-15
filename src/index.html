@@ -8,7 +8,25 @@
 </head>
 
 <body>
-
+  <h1 class="title">Blackjack</h1>
+  <div class="status-container">
+    <p id="win-msg" class="status-msg hide">You won!</p>
+    <p id="lose-msg" class="status-msg hide">You lose...</p>
+    <p id="tie-msg" class="status-msg hide">Tie</p>
+  </div>
+  <h2 class="cards-header">Player</h2>
+  <div id="player-cards" class="cards-container"></div>
+  <h2 class="cards-header">Dealer</h2>
+  <div id="dealer-cards" class="cards-container"></div>
+  <div id="player-btns-container" class="btns-container">
+    <button id="hit-btn">Hit</button>
+    <button id="stand-btn">Stand</button>
+  </div>
+  <div id="game-done-btns-container" class="btns-container">
+    <button id="continue-btn">Continue Playing?</button>
+    <button id="reset-btn">Reset?</button>
+  </div>
+  <script src="./index.ts"></script>
 </body>
 
 </html>

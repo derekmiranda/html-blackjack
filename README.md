@@ -42,3 +42,4 @@ Properties
 ## Other Things to Consider
 
 - how to handle games with slight alterations to the deck
+- inserting cards back into deck and at certain or random places

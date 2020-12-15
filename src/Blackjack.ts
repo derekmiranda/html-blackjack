@@ -125,7 +125,11 @@ export class Blackjack {
     );
 
     // tie
-    if (playerSum === 21 && dealerSum === 21) {
+    if (
+      // blackjack tie
+      (playerSum === 21 && dealerSum === 21) ||
+      (this._state.playerDone && playerSum > 21 && dealerSum > 21)
+    ) {
       this._state.hasTied = true;
       this._state.playerDone = true;
       this.flipDealerCards();

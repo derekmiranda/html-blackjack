@@ -40,5 +40,13 @@ export class Deck {
     return cardsToReturn;
   }
 
-  shuffle(n: number): void {}
+  shuffle(): void {
+    // swap current idx with randomized idx
+    for (let i = 0; i < this._cards.length; i++) {
+      const randIdx = Math.floor(Math.random() * this._cards.length);
+      const temp = this._cards[i];
+      this._cards[i] = this._cards[randIdx];
+      this._cards[randIdx] = temp;
+    }
+  }
 }

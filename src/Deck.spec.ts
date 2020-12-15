@@ -2,6 +2,11 @@ import { Deck } from "./Deck";
 import { FACE_ORDER, SUIT_ORDER } from "./CONSTS";
 import { Card, FaceValue, Suit } from "./types";
 
+// mock Math.random
+const mockMath = Object.create(global.Math);
+mockMath.random = () => 0.5;
+global.Math = mockMath;
+
 describe("Deck", () => {
   describe("Drawing cards", () => {
     test("Drawing 1 card at a time", () => {
@@ -42,9 +47,7 @@ describe("Deck", () => {
     test("Drawing more cards than deck has", () => {
       const deck = new Deck();
       // take out 51 cards
-      for (let i = 0; i < 51; i++) {
-        deck.draw(1);
-      }
+      deck.draw(51);
       expect(deck.hasCards).toBe(true);
 
       // try taking 2 cards out
@@ -59,13 +62,42 @@ describe("Deck", () => {
     });
   });
 
+  describe("Shuffling", () => {
+    test("Deck randomizes order when shuffle() is called", () => {
+      const deck = new Deck();
+
+      // taking cards out to test shuffling with only one suit
+      // easier to determine output
+      deck.draw(13 * 3);
+
+      // with Math.random mocked to return only 0.5,
+      // can easily determine shuffled order
+      const shuffledValues = [
+        FaceValue.Two,
+        FaceValue.Three,
+        FaceValue.Four,
+        FaceValue.Five,
+        FaceValue.Six,
+        FaceValue.Eight,
+        FaceValue.Ace,
+        FaceValue.Nine,
+        FaceValue.Ten,
+        FaceValue.Jack,
+        FaceValue.Queen,
+        FaceValue.King,
+        FaceValue.Seven,
+      ];
+      deck.shuffle();
+
+      const drawn = deck.draw(13);
+      expect(drawn.map((card) => card.value)).toStrictEqual(shuffledValues);
+      expect(drawn.length).toBe(13);
+    });
+  });
+
   describe("Default state", () => {
     const deck: Deck = new Deck();
-    const cards: Card[] = [];
-
-    while (deck.hasCards) {
-      cards.push(deck.draw(1)[0]);
-    }
+    const cards: Card[] = deck.draw(52);
 
     test("Deck should have 52 cards", () => {
       expect(cards.length).toBe(52);

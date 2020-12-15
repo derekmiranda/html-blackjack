@@ -1,8 +1,8 @@
 export enum Suit {
-  Hearts,
-  Diamonds,
-  Spades,
   Clubs,
+  Diamonds,
+  Hearts,
+  Spades,
 }
 
 export enum FaceValue {

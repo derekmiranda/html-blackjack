@@ -118,4 +118,13 @@ describe("Deck", () => {
       }
     });
   });
+
+  describe("reset() puts all cards back into deck in order", () => {
+    const deck = new Deck();
+    deck.draw(52);
+    expect(deck.hasCards).toBe(false);
+    deck.reset();
+    expect(deck.hasCards).toBe(true);
+    expect(deck.draw(52).length).toEqual(52);
+  });
 });

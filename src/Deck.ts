@@ -18,12 +18,14 @@ export class Deck {
   }
 
   reset(): void {
+    const newCards = [];
     // insert in reverse order
     for (let i = SUIT_ORDER.length - 1; i >= 0; i--) {
       for (let j = FACE_ORDER.length - 1; j >= 0; j--) {
-        this._cards.push({ suit: SUIT_ORDER[i], value: FACE_ORDER[j] });
+        newCards.push({ suit: SUIT_ORDER[i], value: FACE_ORDER[j] });
       }
     }
+    this._cards = newCards;
   }
 
   draw(n: number): Card[] {

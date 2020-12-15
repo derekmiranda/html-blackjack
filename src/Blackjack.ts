@@ -32,7 +32,6 @@ export interface BlackjackStateUpdate {
   // triggers state calc
   deal?: boolean;
   hit?: boolean;
-  stand?: boolean;
   newGame?: boolean;
 }
 
@@ -69,14 +68,12 @@ export class Blackjack {
     if (
       Object.keys(stateUpdate).length >= 1 ||
       stateUpdate.deal ||
-      stateUpdate.hit ||
-      stateUpdate.stand
+      stateUpdate.hit
     ) {
       merge(this._state, stateUpdate);
       this.processState();
       delete this._state.deal;
       delete this._state.hit;
-      delete this._state.stand;
     }
     this.render(this._state);
   }
@@ -101,8 +98,14 @@ export class Blackjack {
       this._state.dealerCards = this._state.dealerCards.concat(newDealerCards);
     }
 
+    // TODO: player hit
+
+    const playerSum = this.getCardValues(
+      <FlippableCard[]>this._state.playerCards
+    );
+
     // if player done - dealer starts
-    if (this._state.playerDone) {
+    if (this._state.playerDone && playerSum < 21) {
       let dealerScore = this.getCardValues(this._state.dealerCards);
       let playerScore = this.getCardValues(this._state.playerCards);
       while (dealerScore <= playerScore || dealerScore < 21) {
@@ -117,10 +120,6 @@ export class Blackjack {
       this._state.playerDone = false;
     }
 
-    // dealing done - process game result
-    const playerSum = this.getCardValues(
-      <FlippableCard[]>this._state.playerCards
-    );
     const dealerSum = this.getCardValues(
       <FlippableCard[]>this._state.dealerCards
     );
@@ -134,12 +133,22 @@ export class Blackjack {
     }
     // win
     else if (
-      // blackjack
       playerSum === 21 ||
       // dealer went over
       dealerSum > 21
     ) {
       this._state.hasWon = true;
+      this._state.playerDone = true;
+      this.flipDealerCards();
+      return;
+    }
+    // lose
+    else if (
+      dealerSum === 21 ||
+      // player went over
+      playerSum > 21
+    ) {
+      this._state.hasLost = true;
       this._state.playerDone = true;
       this.flipDealerCards();
       return;

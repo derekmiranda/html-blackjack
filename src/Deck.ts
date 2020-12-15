@@ -42,6 +42,15 @@ export class Deck {
     return cardsToReturn;
   }
 
+  putBack(cards: Card[] | Card): void {
+    if (!Array.isArray(cards)) cards = [cards];
+
+    // put cards back in reverse orderj
+    for (let i = cards.length - 1; i >= 0; i--) {
+      this._cards.push(cards[i]);
+    }
+  }
+
   shuffle(): void {
     // swap current idx with randomized idx
     for (let i = 0; i < this._cards.length; i++) {

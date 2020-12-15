@@ -127,4 +127,27 @@ describe("Deck", () => {
     expect(deck.hasCards).toBe(true);
     expect(deck.draw(52).length).toEqual(52);
   });
+
+  describe("putBack() puts card back on top", () => {
+    const deck = new Deck();
+    const cards = deck.draw(52);
+
+    // putting back first 3 cards
+    deck.putBack(cards.slice(0, 3));
+
+    expect(deck.draw(3)).toStrictEqual([
+      {
+        suit: Suit.Clubs,
+        value: FaceValue.Ace,
+      },
+      {
+        suit: Suit.Clubs,
+        value: FaceValue.Two,
+      },
+      {
+        suit: Suit.Clubs,
+        value: FaceValue.Three,
+      },
+    ]);
+  });
 });

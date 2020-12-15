@@ -11,7 +11,9 @@
 
 - 4 suits (hearts, spades, clubs, diamonds)
 - each suit has 13 cards: A, 2-10, J, Q, K
-- uses `Card` class to represent playing cards
+- uses `Card` objects to represent playing cards
+  - `value: FaceValue` - card value (`'J'`, `'Q'`, `'K'`...)
+  - `suit: Suit` - indicates card's suit (Hearts, Spades...)
 - general purpose deck class so minimal, unopinionated API
 
 ### Methods
@@ -20,13 +22,6 @@
   - if no cards left, returns empty array
 - `shuffle(): void` - shuffles deck
 - `reset(): void` - puts all cards back into deck and reshuffles
-
-### Card class
-
-Properties
-
-- `value: string` - card value (J, Q, K...)
-- `suit: Suit` - indicates card's suit (Hearts, Spades...)
 
 ## HTML/CSS Game using cards - Blackjack
 

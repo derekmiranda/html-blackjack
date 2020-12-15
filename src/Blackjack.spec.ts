@@ -24,44 +24,8 @@ describe("Blackjack", () => {
   describe("Dealing", () => {
     const render = <BlackjackStateRenderer>jest.fn();
     const blackjack = new Blackjack(render);
-    // 1st player card
     blackjack.update({
-      continue: true,
-    });
-    expect(render).toBeCalledWith({
-      playerCards: [
-        {
-          suit: Suit.Clubs,
-          value: FaceValue.Ace,
-          flipped: false,
-        },
-      ],
-      dealerCards: [],
-      discarded: [],
-    });
-    // 2nd player card
-    blackjack.update({
-      continue: true,
-    });
-    expect(render).toBeCalledWith({
-      playerCards: [
-        {
-          suit: Suit.Clubs,
-          value: FaceValue.Ace,
-          flipped: false,
-        },
-        {
-          suit: Suit.Clubs,
-          value: FaceValue.Two,
-          flipped: false,
-        },
-      ],
-      dealerCards: [],
-      discarded: [],
-    });
-    // 1st dealer card
-    blackjack.update({
-      continue: true,
+      deal: true,
     });
     expect(render).toBeCalledWith({
       playerCards: [
@@ -81,6 +45,11 @@ describe("Blackjack", () => {
           suit: Suit.Clubs,
           value: FaceValue.Three,
           flipped: false,
+        },
+        {
+          suit: Suit.Clubs,
+          value: FaceValue.Four,
+          flipped: true,
         },
       ],
       discarded: [],

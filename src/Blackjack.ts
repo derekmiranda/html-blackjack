@@ -13,7 +13,9 @@ export interface BlackjackState {
   hasWon?: boolean;
   hasLost?: boolean;
   hasTied?: boolean;
-  continue?: boolean;
+  deal?: boolean;
+  hit?: boolean;
+  stand?: boolean;
 }
 
 export interface BlackjackStateRenderer {
@@ -46,8 +48,12 @@ export class Blackjack {
   }
 
   update(stateUpdate: BlackjackState = {}) {
-    if (Object.keys(stateUpdate).length >= 1 || stateUpdate.continue) {
-      delete stateUpdate.continue;
+    if (
+      Object.keys(stateUpdate).length >= 1 ||
+      stateUpdate.deal ||
+      stateUpdate.hit ||
+      stateUpdate.stand
+    ) {
       merge(this._state, stateUpdate);
       this.processState();
     }
@@ -56,28 +62,39 @@ export class Blackjack {
 
   processState() {
     // deal cards - player then dealer
-    const playerCards = <FlippableCard[]>this._state.playerCards;
-    if (playerCards.length < 2) {
-      const card: FlippableCard = {
-        ...this.getCard(),
-        flipped: false,
+    if (this._state.deal) {
+      const convertToFlippable = (card: FlippableCard) => {
+        card.flipped = false;
+        return card;
       };
-      playerCards.push(card);
-      return;
-    }
-    const dealerCards = <FlippableCard[]>this._state.dealerCards;
-    if (dealerCards.length < 2) {
-      const card: FlippableCard = {
-        ...this.getCard(),
-        flipped: dealerCards.length >= 1,
-      };
-      dealerCards.push(card);
+
+      const newPlayerCards = (<FlippableCard[]>this.getCards(2)).map(
+        convertToFlippable
+      );
+      const newDealerCards = (<FlippableCard[]>this.getCards(2)).map(
+        convertToFlippable
+      );
+      newDealerCards[1].flipped = true;
+
+      this._state.playerCards = (<FlippableCard[]>(
+        this._state.playerCards
+      )).concat(newPlayerCards);
+      this._state.dealerCards = (<FlippableCard[]>(
+        this._state.dealerCards
+      )).concat(newDealerCards);
+
+      delete this._state.deal;
+
       return;
     }
 
     // dealing done - process game result
-    const playerSum = this.getCardValues(playerCards);
-    const dealerSum = this.getCardValues(playerCards);
+    const playerSum = this.getCardValues(
+      <FlippableCard[]>this._state.playerCards
+    );
+    const dealerSum = this.getCardValues(
+      <FlippableCard[]>this._state.dealerCards
+    );
 
     // blackjack tie
     if (playerSum === 21 && dealerSum === 21) {
@@ -114,18 +131,18 @@ export class Blackjack {
     return sum;
   }
 
-  getCard(): Card {
-    let card = this.deck.draw(1);
+  getCards(n: number): Card[] {
+    let card = this.deck.draw(n);
     // if no card, reshuffle discarded back into deck
-    if (card.length < 1) {
+    if (card.length < n) {
       this.deck.putBack(<Card[]>this._state.discarded);
       this.deck.shuffle();
-      card = this.deck.draw(1);
+      card = card.concat(this.deck.draw(n - card.length));
       merge(this._state, {
         discarded: [],
       });
     }
-    return card[0];
+    return card;
   }
 
   flipDealerCards(): void {

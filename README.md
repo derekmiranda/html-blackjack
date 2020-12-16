@@ -1,5 +1,10 @@
 # Zencastr - Deck of Cards + Blackjack
 
+## Instructions To Run
+
+- Clone/download repo
+- Run `npm start` and navigate to `http://localhost:1234` in browser
+
 ## Requirements
 
 - [x] Create class that represents a deck of cards

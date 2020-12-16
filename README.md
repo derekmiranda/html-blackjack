@@ -1,4 +1,4 @@
-# Zencastr - Deck of Cards
+# Zencastr - Deck of Cards + Blackjack
 
 ## Requirements
 

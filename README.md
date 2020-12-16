@@ -1,4 +1,4 @@
-# Zencastr - Deck of Cards + Blackjack
+# Deck of Cards + Blackjack
 
 ## Instructions To Run
 

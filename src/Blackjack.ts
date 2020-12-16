@@ -123,25 +123,25 @@ export class Blackjack {
       this._state.playerCards.push(newCard);
     }
 
-    const playerSum = this.getCardValues(
+    const playerSum = Blackjack.getCardValues(
       <FlippableCard[]>this._state.playerCards
     );
 
     // if player done - dealer starts
     if (this._state.playerDone && playerSum < 21) {
-      let dealerScore = this.getCardValues(this._state.dealerCards);
-      let playerScore = this.getCardValues(this._state.playerCards);
+      let dealerScore = Blackjack.getCardValues(this._state.dealerCards);
+      let playerScore = Blackjack.getCardValues(this._state.playerCards);
       while (dealerScore <= playerScore && dealerScore < 21) {
         const newCard: FlippableCard = {
           ...this.getCards(1)[0],
           flipped: false,
         };
         this._state.dealerCards.push(newCard);
-        dealerScore = this.getCardValues(this._state.dealerCards);
+        dealerScore = Blackjack.getCardValues(this._state.dealerCards);
       }
     }
 
-    const dealerSum = this.getCardValues(
+    const dealerSum = Blackjack.getCardValues(
       <FlippableCard[]>this._state.dealerCards
     );
 
@@ -182,7 +182,7 @@ export class Blackjack {
     }
   }
 
-  getCardValues(cards: Card[]): number {
+  static getCardValues(cards: Card[]): number {
     let sum = 0;
     let numAces = 0;
     for (let card of cards) {

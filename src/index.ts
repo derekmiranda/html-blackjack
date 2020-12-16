@@ -85,8 +85,8 @@ function render(state: BlackjackState) {
     hasTied,
   } = state;
   const { numCards } = blackjack.deck;
-  const playerScore = blackjack.getCardValues(playerCards);
-  const dealerScore = blackjack.getCardValues(dealerCards);
+  const playerScore = Blackjack.getCardValues(playerCards);
+  const dealerScore = Blackjack.getCardValues(dealerCards);
 
   playerCardsEl.innerHTML = playerCards
     .map((card: FlippableCard) => {

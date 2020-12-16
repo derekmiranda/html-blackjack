@@ -17,3 +17,10 @@ export const FACE_ORDER = [
   FaceValue.Queen,
   FaceValue.King,
 ];
+
+export const SUIT_SYMBOL_MAP = {
+  [Suit.Clubs]: "♣",
+  [Suit.Hearts]: "♥",
+  [Suit.Diamonds]: "♦",
+  [Suit.Spades]: "♠",
+};

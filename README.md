@@ -48,3 +48,4 @@
 - working with multiple decks
 - preventing unnecessary rerenders
 - browser testing (only tested on OSX Chrome)
+- animations (such as dealing or flipping cards)

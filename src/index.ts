@@ -99,7 +99,9 @@ function render(state: BlackjackState) {
     })
     .join("");
   playerHeader.innerText = `Player: ${playerScore}`;
-  dealerHeader.innerText = `Dealer: ${dealerScore}`;
+  dealerHeader.innerText = dealerCards.every((card) => !card.flipped)
+    ? `Dealer: ${dealerScore}`
+    : "Dealer";
   cardNumEl.innerText = `Cards Left: ${numCards}`;
 
   if (hasWon) {

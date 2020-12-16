@@ -3,9 +3,9 @@
 ## Requirements
 
 - [x] Create class that represents a deck of cards
-- [ ] Create an HTML/CSS UI for a game that interacts with this deck of cards class
+- [x] Create an HTML/CSS UI for a game that interacts with this deck of cards class
 - [x] Please make sure there is a valid package.json file in the root of the repo
-- [ ] Upload this homework to a github repository or a github gist
+- [x] Upload this homework to a github repository or a github gist
 
 ## 1. Deck class
 
@@ -15,6 +15,7 @@
   - `value: FaceValue` - card value (`'J'`, `'Q'`, `'K'`...)
   - `suit: Suit` - indicates card's suit (Hearts, Spades...)
 - general purpose deck class so minimal, unopinionated API
+- takes in `render` function as constructor parameter. `render` uses the state of the Blackjack game (`BlackJackState`) to render UI similar to a Redux store triggering UI updates.
 
 ### Methods
 
@@ -25,16 +26,20 @@
 
 ## HTML/CSS Game using cards - Blackjack
 
-- TODO: rules to implement
 - just using 1 deck for simplicity
-- player can place bets
 
 ### From [Bicycle's Blackjack Guide](https://bicyclecards.com/how-to-play/blackjack/)
 
 - "Each participant attempts to beat the dealer by getting a count as close to 21 as possible, without going over 21."
 - "It is up to each individual player if an ace is worth 1 or 11. Face cards are 10 and any other card is its pip value."
+- dealer and player get one card face up each. Then player gets another face up card and dealer gets one face down
+- natural/blackjack (initial pair totals 21) = player/dealer instantly wins if other doesn't have one as well
+  - if both player and dealer have naturals, is a tie
 
 ## Other Things to Consider
 
 - how to handle games with slight alterations to the deck
-- inserting cards back into deck and at certain or random places
+- inserting cards back into deck at certain or random places
+- working with multiple decks
+- preventing unnecessary rerenders
+- browser testing (only tested on OSX Chrome)

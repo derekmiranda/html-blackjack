@@ -13,6 +13,10 @@ export class Deck {
     return !!this._cards.length;
   }
 
+  get numCards() {
+    return this._cards.length;
+  }
+
   constructor() {
     this.reset();
   }

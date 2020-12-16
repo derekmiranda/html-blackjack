@@ -226,6 +226,7 @@ export class Blackjack {
   reset(): void {
     this._state = merge({}, Blackjack.defaultState);
     this.deck.reset();
+    this.deck.shuffle();
   }
 
   flipDealerCards(): void {

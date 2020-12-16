@@ -184,13 +184,11 @@ export class Blackjack {
 
   getCardValues(cards: Card[]): number {
     let sum = 0;
+    let numAces = 0;
     for (let card of cards) {
+      // handle aces after other cards
       if (card.value === FaceValue.Ace) {
-        if (sum + 11 <= 21) {
-          sum += 11;
-        } else {
-          sum += 1;
-        }
+        numAces++;
       } else if (
         card.value === FaceValue.Jack ||
         card.value === FaceValue.Queen ||
@@ -206,6 +204,16 @@ export class Blackjack {
         }
       }
     }
+
+    // pick best values for aces
+    for (let i = 0; i < numAces; i++) {
+      if (sum + 11 <= 21) {
+        sum += 11;
+      } else {
+        sum += 1;
+      }
+    }
+
     return sum;
   }
 

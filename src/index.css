@@ -3,7 +3,18 @@ body {
   margin: 50px;
 }
 
+h1,
+h2,
+h3 {
+  margin: 0;
+}
+
 .status-container {
+  font-size: 2rem;
+}
+
+.cards-subtitle {
+  color: #777;
 }
 
 .cards-container {
@@ -39,7 +50,15 @@ body {
 }
 
 .flipped-card {
-  background-color: darkblue;
+  font-family: Helvetica, sans-serif;
+  background: rgb(2, 0, 36);
+  background: linear-gradient(
+    0deg,
+    rgba(2, 0, 36, 1) 0%,
+    rgba(9, 9, 121, 1) 35%,
+    rgba(0, 212, 255, 1) 100%
+  );
+  color: rgba(255, 255, 255, 0.7);
 }
 
 /* utility classes */
